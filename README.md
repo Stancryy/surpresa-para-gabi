@@ -28,7 +28,7 @@ da experiência da carta. Nenhum destes diretórios precisa ser publicado.
 
 Edite **`js/config.js`**:
 - `recipient`: nome da destinatária;
-- `signature`: substitua **`[Seu nome]`** pelo seu nome;
+- `signature`: nome de quem assina a carta, atualmente **Junior**;
 - `hero` e `closing`: mensagens principal e final;
 - `reasons`: oito razões editáveis;
 - `memories`: as três lembranças;

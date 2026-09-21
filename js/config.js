@@ -5,7 +5,7 @@
  */
 export const CONFIG = {
   recipient: 'Gabrielly',
-  signature: '[Seu nome]', // PERSONALIZE: substitua pelo seu nome.
+  signature: 'Junior', // PERSONALIZE: substitua pelo seu nome.
   // PERSONALIZE: início do namoro para a contagem TOTAL crescente.
   // Mês começa em 1. Meia-noite no horário LOCAL do navegador, não UTC.
   relationshipStart: { year: 2026, month: 7, day: 21, hour: 0, minute: 0 },
