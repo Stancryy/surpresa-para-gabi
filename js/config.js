@@ -6,16 +6,23 @@
 export const CONFIG = {
   recipient: 'Gabrielly',
   signature: '[Seu nome]', // PERSONALIZE: substitua pelo seu nome.
-  // Mês começa em 1 nesta configuração. A data usa o horário LOCAL do navegador.
-  anniversary: { year: 2026, month: 9, day: 21, hour: 0, minute: 0 },
+  // PERSONALIZE: início do namoro para a contagem TOTAL crescente.
+  // Mês começa em 1. Meia-noite no horário LOCAL do navegador, não UTC.
+  relationshipStart: { year: 2026, month: 7, day: 21, hour: 0, minute: 0 },
   hero: {
     title: 'Se for com você,',
     accent: 'eu quero viver.',
-    greeting: 'Meu amor,',
+    greeting: 'Oiii, meu amor.',
     paragraphs: [
-      'Não esperei uma data especial para te escrever. Às vezes, o carinho fica tão grande aqui dentro que precisa encontrar um jeito de chegar até você. Hoje, ele virou esta carta.',
-      'Eu amo ter você na minha vida, Gabrielly. Amo nossas conversas, o seu jeito de estar perto e até a saudade que fica quando a gente se despede. Com você, as coisas simples têm um lugar especial em mim.',
-      'Quero estar ao seu lado de verdade: ouvir, cuidar, aprender com você e fazer a minha parte, todos os dias, pelo nosso futuro. Não tenho todas as respostas, mas tenho muita vontade de construir esse caminho com você.'
+      'Hoje a gente faz 2 meses. Passou mais rápido do que eu imaginava.',
+      'Ao seu lado, eu me sinto o menino mais feliz desse mundo. Eu não me vejo mais sem você. Você me encantou de um jeito que eu acordo e a primeira coisa que penso é em mandar mensagem para você, para saber como você está e se dormiu bem, porque eu realmente me importo com você.',
+      'Quando você foi conhecer minha irmã, foi engraçado. Você toda tímida, não falando nada kkkkk, e minha vó perguntando se você sabia lavar roupa kkkkk. Isso vai ficar para sempre. Vamos lembrar disso no futuro e dar risadas juntos.',
+      'Eu gosto de cada momento ao seu lado, até dos momentos em que você está brava kkkkk.',
+      'Você foi a primeira menina na minha vida. Não digo no sentido de ficar, porque eu já fiquei com várias, mas nenhuma foi como você. Você fez eu querer mudar, fez eu querer largar meus vícios e me tornar uma pessoa melhor.',
+      'Amor, você ainda não conhece todo meu passado, mas eu vou te contar tudo. Nunca fui santo, mas por você eu estou tentando ser. O que eu vou te contar, eu não contei nem para o Alex, porque não gosto de comentar sobre isso. Mas você é minha namorada e eu acho que você deve saber. Amanhã eu te conto tudo isso que está na cartinha.',
+      'Mas não estou aqui para falar dos meus erros do passado e das minhas mentiras. Estou aqui para falar que você foi a única menina que eu quis apresentar para a minha família em tão pouco tempo. Espero que eu e você duremos para sempre. Não quero nem imaginar uma vida sem você. Você é o meu mundo. Amo fazer tudo com você, porque com você tudo fica mais lindo.',
+      'Queria te lembrar que você é linda. Você é linda desde a manchinha no seu olho até o seu cabelo. Amo tudo em você. Gosto de reparar em cada detalhe seu.',
+      'Eu te amo, Gabrielly, e sempre vou amar.'
     ],
     note: 'Não é sobre um dia especial.\nÉ sobre você tornar os dias especiais.'
   },

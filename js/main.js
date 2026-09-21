@@ -1,7 +1,8 @@
 import { CONFIG, PLAYLIST } from './config.js';
 import { icon, hydrateIcons } from './icons.js';
-import { initCountdown } from './countdown.js';
+import { initElapsedCounter } from './countdown.js';
 import { initPlayer } from './player.js';
+import { initScrollEffects } from './scroll-effects.js';
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -17,10 +18,10 @@ function fillContent() {
     $(`${part}-paragraphs`).innerHTML = CONFIG[part].paragraphs.map((text, i) => `<p data-testid="${part}-paragraph-${i + 1}">${escape(text)}</p>`).join('');
   }
   $('reasons-grid').innerHTML = CONFIG.reasons.map((reason, i) => `<article class="reason-card reveal" style="--delay:${(i % 4) * 70}ms" data-testid="reason-card-${i + 1}"><div class="reason-top"><span class="reason-icon" aria-hidden="true">${icon(reason.icon)}</span><span class="reason-number" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span></div><h3 data-testid="reason-title-${i + 1}">${escape(reason.title)}</h3><p data-testid="reason-text-${i + 1}">${escape(reason.text)}</p></article>`).join('');
-  $('memories-grid').innerHTML = CONFIG.memories.map((memory, i) => `<article class="memory-card reveal" style="--delay:${i * 100}ms" data-testid="memory-card-${i + 1}"><span class="tape" aria-hidden="true"></span><div class="memory-card-top"><span class="memory-number" aria-hidden="true">${escape(memory.number)}</span><span class="memory-icon" aria-hidden="true">${icon(memory.icon)}</span></div><p class="eyebrow" data-testid="memory-label-${i + 1}">${escape(memory.label)}</p><h3 data-testid="memory-title-${i + 1}">${escape(memory.title)}</h3><p class="memory-text" data-testid="memory-text-${i + 1}">${escape(memory.text)}</p><p class="memory-note handwritten" data-testid="memory-note-${i + 1}">${escape(memory.note)}</p></article>`).join('');
-  const date = CONFIG.anniversary;
+  $('memories-grid').innerHTML = CONFIG.memories.map((memory, i) => `<article class="memory-card reveal" style="--delay:${i * 100}ms" data-testid="memory-card-${i + 1}"><span class="tape" aria-hidden="true" data-scroll-decoration></span><div class="memory-card-top"><span class="memory-number" aria-hidden="true">${escape(memory.number)}</span><span class="memory-icon" aria-hidden="true">${icon(memory.icon)}</span></div><p class="eyebrow" data-testid="memory-label-${i + 1}">${escape(memory.label)}</p><h3 data-testid="memory-title-${i + 1}">${escape(memory.title)}</h3><p class="memory-text" data-testid="memory-text-${i + 1}">${escape(memory.text)}</p><p class="memory-note handwritten" data-testid="memory-note-${i + 1}">${escape(memory.note)}</p></article>`).join('');
+  const date = CONFIG.relationshipStart;
   const dateText = new Date(date.year, date.month - 1, date.day).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
-  document.querySelector('[data-testid="anniversary-date"]').innerHTML = `${icon('heart')} ${dateText}`;
+  document.querySelector('[data-testid="relationship-start-date"]').innerHTML = `${icon('heart')} Juntos desde ${dateText}`;
   hydrateIcons();
 }
 
@@ -44,7 +45,7 @@ function heartBurst() {
   setTimeout(() => { $('heart-burst').replaceChildren(); }, 4000);
 }
 
-function initEnvelope(player) {
+function initEnvelope(player, scrollEffects) {
   let opening = false;
   const openButtons = [$('open-envelope'), document.querySelector('.open-letter')];
   function open() {
@@ -59,6 +60,7 @@ function initEnvelope(player) {
       window.scrollTo({ top: 0, behavior: 'instant' });
       $('letter-title').focus({ preventScroll: true });
       revealPage();
+      scrollEffects.refresh();
       heartBurst();
       // Nenhum play() aqui: somente uma ação no player inicia a música.
     }, reducedMotion.matches ? 0 : 1250);
@@ -67,6 +69,7 @@ function initEnvelope(player) {
   $('close-letter').addEventListener('click', () => {
     player.pause();
     $('letter-page').hidden = true;
+    scrollEffects.reset();
     document.querySelector('.skip-link').hidden = true;
     $('gift').hidden = false;
     $('gift').classList.remove('opening');
@@ -92,7 +95,8 @@ function initNavigation() {
 }
 
 fillContent();
-initCountdown(CONFIG.anniversary);
+initElapsedCounter(CONFIG.relationshipStart);
 const player = initPlayer(PLAYLIST);
-initEnvelope(player);
+const scrollEffects = initScrollEffects();
+initEnvelope(player, scrollEffects);
 initNavigation();
