@@ -78,7 +78,7 @@ passar a manhã na casa dela, planejada no dia anterior; busca pelo celular do
 irmão esquecido no ônibus, com longa caminhada e horas de conversa sobre o casal.
 
 Plano aprovado: envelope em cada visita, reprodução exclusivamente manual,
-oito razões, três memórias sem fotos, sem senha, assinatura '[Seu nome]'.
+oito razões, três memórias sem fotos, sem senha, assinatura 'Junior'.
 Última informação do usuário: **'as musicas estão no repositorio na pasta musicas'**.
 Cinco MP3 já presentes no checkout foram copiados de musicas/ para assets/audio/;
 originais preservados. Artistas desconhecidos rotulados 'Da nossa coleção'.
@@ -105,7 +105,7 @@ originais preservados. Artistas desconhecidos rotulados 'Da nossa coleção'.
 - Player com cinco MP3 reais: Amber Hours, Heart’s Embrace, Midnight Bloom,
   Midnight Velvet Serenade, Moonlit Reverie.
 - Estados vazios/falha, controles rotulados, controles físicos de volume no mobile.
-- Fechamento, '[Seu nome]', botão guardar pausa o áudio e restaura envelope/foco.
+- Fechamento, 'Junior', botão guardar pausa o áudio e restaura envelope/foco.
 - Breakpoints responsivos, prefers-reduced-motion, semântica e data-testid.
 - README com personalização, áudio, GitHub Pages, privacidade e direitos autorais.
 - Não foi executado push. Usuário deve usar Save to Github com conta autorizada.

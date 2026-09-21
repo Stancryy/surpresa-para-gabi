@@ -60,13 +60,14 @@ export const CONFIG = {
  * O nome em `file` deve coincidir com o arquivo, inclusive maiúsculas e extensão.
  * Para remover uma faixa, remova o objeto completo da lista.
  * Para não ter músicas, use export const PLAYLIST = [];
- * Os cinco arquivos abaixo vieram de musicas/ no repositório fornecido.
- * Como não havia informação confirmada de artista, o campo é descritivo.
+ * Os sete arquivos abaixo foram escolhidos para a nossa trilha.
  */
 export const PLAYLIST = [
-  { title: 'Amber Hours', artist: 'Da nossa coleção', file: 'Amber_Hours.mp3' },
-  { title: "Heart’s Embrace", artist: 'Da nossa coleção', file: 'Heart_s_Embrace.mp3' },
-  { title: 'Midnight Bloom', artist: 'Da nossa coleção', file: 'Midnight_Bloom.mp3' },
-  { title: 'Midnight Velvet Serenade', artist: 'Da nossa coleção', file: 'Midnight_Velvet_Serenade.mp3' },
-  { title: 'Moonlit Reverie', artist: 'Da nossa coleção', file: 'Moonlit_Reverie.mp3' }
+  { title: 'Fica', artist: 'ANAVITÓRIA ft. Matheus & Kauan', file: 'ANAVITÓRIA - Fica ft. Matheus & Kauan [KrGi__9zy78].mp3' },
+  { title: 'Todo Amor do Mundo', artist: 'Ferrugem', file: 'Ferrugem - Todo Amor do Mundo (Clipe Oficial) [ytN7fbZ__OE].mp3' },
+  { title: 'Incondicional', artist: 'Luan Santana', file: 'Luan Santana - INCONDICIONAL (Registro Histórico) [oNiGxfh-Su0].mp3' },
+  { title: 'Tanto Faz', artist: 'Luan Santana', file: 'Luan Santana - TANTO FAZ (Registro Histórico) [hAV_q_cW8Os].mp3' },
+  { title: 'Te Vivo', artist: 'Luan Santana', file: 'Luan Santana - Te Vivo (Letra_Lyrics) [O0MU-tzvrNs].mp3' },
+  { title: 'Tudo Que Você Quiser', artist: 'Luan Santana', file: 'Luan Santana - Tudo Que Você Quiser (O Nosso Tempo É Hoje - Vídeo Oficial).mp3' },
+  { title: 'Nessas Horas', artist: 'Matheus & Kauan', file: 'Nessas Horas (Ao Vivo) [4KLg_9qMCT0].mp3' }
 ];

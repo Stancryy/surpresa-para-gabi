@@ -44,7 +44,7 @@ As músicas serão mantidas em uma lista fácil de editar, com título, artista 
 **Premissa sobre o áudio:** nenhum arquivo musical foi fornecido. A página será preparada para receber as músicas escolhidas, sem incluir gravações comerciais ou faixas fictícias. Enquanto a lista estiver vazia, o player mostrará uma mensagem discreta e controles indisponíveis. Arquivos ausentes, formatos incompatíveis ou bloqueios de reprodução terão avisos claros, sem impedir a leitura da carta. Em dispositivos que limitam o volume pelo navegador, será possível usar os controles físicos do aparelho.
 
 ### 6. Fechamento e assinatura
-Última mensagem reafirmando a escolha de estar com Gabrielly e cuidar do futuro juntos. A assinatura inicial será **“Com todo o meu amor, [Seu nome]”**, com indicação clara de onde substituir o nome.
+Última mensagem reafirmando a escolha de estar com Gabrielly e cuidar do futuro juntos. A assinatura inicial será **“Com todo o meu amor, Junior”**.
 
 ## Experiência e acessibilidade
 - Leitura confortável em celulares e computadores, de 360 px a 1920 px e com adaptação a larguras intermediárias, sem rolagem horizontal.
@@ -65,4 +65,4 @@ As músicas serão mantidas em uma lista fácil de editar, com título, artista 
 2. A reprodução musical será manual, não vinculada à abertura do envelope.
 3. Serão usadas oito razões e exatamente as três memórias fornecidas.
 4. Não haverá fotografias, senha ou arquivos de música incluídos inicialmente.
-5. A assinatura permanecerá como “[Seu nome]” até a personalização.
+5. A assinatura foi personalizada como “Junior”.

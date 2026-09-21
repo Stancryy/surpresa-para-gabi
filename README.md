@@ -15,7 +15,7 @@ js/countdown.js            Contagem total crescente no horário local do navegad
 js/scroll-effects.js       Pequenos movimentos 2D apenas nas decorações
 js/player.js               Player de áudio nativo e seus controles
 js/icons.js                Pequenos ícones vetoriais, sem dependências
-assets/audio/              Os cinco MP3 fornecidos, usados pelo player
+assets/audio/              Os sete MP3 da trilha, usados pelo player
 assets/img/                Raminho decorativo e ícone do site
 musicas/                   Originais do repositório, preservados
 ```
@@ -58,7 +58,7 @@ inclusive se a preferência mudar enquanto a página estiver aberta.
 
 ## Adicionar ou remover músicas
 
-Os cinco MP3 da pasta original `musicas/` foram copiados para `assets/audio/`.
+Os sete MP3 da pasta `musicas/` foram copiados para `assets/audio/`.
 O player usa **apenas `assets/audio/`**. As cópias originais foram preservadas.
 
 1. Adicione um MP3 autorizado em **`assets/audio/`**. Prefira nomes simples.
@@ -72,9 +72,7 @@ export const PLAYLIST = [
 ```
 
 O valor de `file` deve ser o nome exato, inclusive maiúsculas e extensão,
-**sem** `assets/audio/` antes. Título e artista são os textos exibidos.
-Não foram fornecidos nomes de artistas confirmados para os MP3 existentes;
-por isso, o campo inicial diz “Da nossa coleção” e pode ser atualizado.
+**sem** ssets/audio/ antes. Título e artista são os textos exibidos no player.
 
 Para remover uma faixa, remova seu objeto do array. Adicionar somente um arquivo
 à pasta **não** o inclui automaticamente no player. Com `PLAYLIST = []`, o player
