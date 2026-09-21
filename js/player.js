@@ -1,6 +1,5 @@
 import { icon } from './icons.js';
 
-// Player nativo: sem serviços externos, autoplay ou dependências.
 export function initPlayer(tracks) {
   const $ = id => document.getElementById(id);
   const audio = $('audio');
@@ -13,19 +12,39 @@ export function initPlayer(tracks) {
   let requestedPlay = false;
   let generation = 0;
   let lastVolume = .65;
+  let isBuffering = false;
+  let preloader = document.createElement('audio');
+  preloader.preload = 'auto';
+  preloader.muted = true;
+  preloader.setAttribute('aria-hidden', 'true');
 
   const time = seconds => {
     const safe = Number.isFinite(seconds) ? Math.max(0, Math.floor(seconds)) : 0;
     return `${Math.floor(safe / 60)}:${String(safe % 60).padStart(2, '0')}`;
   };
   const setStatus = message => { status.textContent = message; };
+  const setPersistentStatus = message => { status.dataset.transient = 'false'; status.textContent = message; };
+  const clearTransientStatus = () => { if (status.dataset.transient !== 'false') status.textContent = ''; };
   const validDuration = () => Number.isFinite(audio.duration) && audio.duration > 0;
+  const trackUrl = file => new URL(`../assets/audio/${encodeURIComponent(file)}`, import.meta.url).href;
+
+  function setBuffering(on, message = '') {
+    isBuffering = !!on;
+    if (on) {
+      if (message) { delete status.dataset.transient; setStatus(message); }
+    } else {
+      clearTransientStatus();
+    }
+    renderPlayback();
+  }
 
   function renderPlayback() {
     const playing = !audio.error && (requestedPlay || (!audio.paused && !audio.ended));
-    playButton.innerHTML = icon(playing ? 'pause' : 'play');
-    playButton.setAttribute('aria-label', playing ? 'Pausar música' : 'Reproduzir música');
+    const showSpinner = playing && isBuffering;
+    playButton.innerHTML = icon(showSpinner ? 'spinner icon-spin' : playing ? 'pause' : 'play');
+    playButton.setAttribute('aria-label', showSpinner ? 'Carregando música' : playing ? 'Pausar música' : 'Reproduzir música');
     player.classList.toggle('is-playing', playing);
+    player.classList.toggle('is-buffering', showSpinner);
     document.querySelectorAll('.playlist-track').forEach((button, i) => {
       const selected = i === index;
       button.classList.toggle('selected', selected);
@@ -46,9 +65,16 @@ export function initPlayer(tracks) {
     $('duration').textContent = time(duration);
   }
 
+  function preloadNextTrack() {
+    if (tracks.length < 2) return;
+    const nextIndex = (index + 1) % tracks.length;
+    try { preloader.src = trackUrl(tracks[nextIndex].file); preloader.load(); } catch { /* Pré-carga opcional. */ }
+  }
+
   function pause() {
     generation++;
     requestedPlay = false;
+    isBuffering = false;
     audio.pause();
     renderPlayback();
   }
@@ -57,10 +83,10 @@ export function initPlayer(tracks) {
     if (!tracks.length) return;
     const attempt = ++generation;
     requestedPlay = true;
-    setStatus('');
+    if (!status.textContent) setBuffering(true, 'Preparando a música…');
     renderPlayback();
     try {
-      if (audio.error || audio.readyState === 0) audio.load();
+      if (audio.error || audio.networkState === HTMLMediaElement.NETWORK_EMPTY) audio.load();
       await audio.play();
       if (attempt !== generation) return;
       requestedPlay = false;
@@ -70,7 +96,7 @@ export function initPlayer(tracks) {
       requestedPlay = false;
       generation++;
       renderPlayback();
-      setStatus(error.name === 'NotAllowedError'
+      setPersistentStatus(error.name === 'NotAllowedError'
         ? 'O navegador pediu uma confirmação. Toque em reproduzir para ouvir.'
         : 'Não foi possível reproduzir esta faixa. O arquivo pode estar ausente ou em um formato incompatível. Tente outra música.');
     }
@@ -78,14 +104,14 @@ export function initPlayer(tracks) {
 
   function selectTrack(nextIndex, shouldPlay = false) {
     if (!tracks.length) return;
-    pause();
+    const isSame = nextIndex === index;
+    if (!isSame) pause();
     index = (nextIndex + tracks.length) % tracks.length;
     const track = tracks[index];
-    // Caminho relativo ao módulo: também funciona em /nome-do-repositorio/.
-    audio.src = new URL(`../assets/audio/${encodeURIComponent(track.file)}`, import.meta.url).href;
+    audio.src = trackUrl(track.file);
     $('track-title').textContent = track.title;
     $('track-artist').textContent = track.artist;
-    setStatus('');
+    setBuffering(shouldPlay, shouldPlay ? 'Carregando a próxima faixa…' : '');
     audio.load();
     renderTime();
     renderPlayback();
@@ -108,11 +134,10 @@ export function initPlayer(tracks) {
   if (!tracks.length) {
     $('track-title').textContent = 'Nosso próximo play';
     $('track-artist').textContent = 'Um espaço para as nossas músicas';
-    setStatus('Nossa trilha ainda está sendo escolhida. Em breve, mais um jeito de sentir a gente.');
+    setPersistentStatus('Nossa trilha ainda está sendo escolhida. Em breve, mais um jeito de sentir a gente.');
     return { pause: () => audio.pause() };
   }
 
-  // textContent para permitir títulos personalizados sem interpretar HTML.
   tracks.forEach((track, i) => {
     const item = document.createElement('li');
     const button = document.createElement('button');
@@ -130,7 +155,7 @@ export function initPlayer(tracks) {
   [playButton, $('previous-track'), $('next-track'), $('mute'), volume].forEach(control => { control.disabled = false; });
   try { audio.volume = .65; } catch { /* Alguns dispositivos permitem apenas o volume físico. */ }
   renderVolume();
-  selectTrack(0); // Só escolhe a faixa. Não reproduz nem carrega o arquivo inteiro.
+  selectTrack(0);
 
   playButton.addEventListener('click', () => requestedPlay || !audio.paused ? pause() : play());
   $('previous-track').addEventListener('click', () => selectTrack(index - 1, requestedPlay || !audio.paused));
@@ -155,16 +180,21 @@ export function initPlayer(tracks) {
     renderVolume();
   });
   audio.addEventListener('play', renderPlayback);
-  audio.addEventListener('pause', () => { requestedPlay = false; renderPlayback(); });
-  audio.addEventListener('playing', () => { setStatus(''); renderPlayback(); });
+  audio.addEventListener('pause', () => { requestedPlay = false; setBuffering(false); renderPlayback(); });
+  audio.addEventListener('playing', () => { setBuffering(false); renderPlayback(); preloadNextTrack(); });
+  audio.addEventListener('waiting', () => setBuffering(true, 'Carregando mais um pedacinho…'));
+  audio.addEventListener('stalled', () => setBuffering(true, 'A conexão está lenta, mas já volta…'));
+  audio.addEventListener('loadstart', () => { if (requestedPlay) setBuffering(true, 'Baixando a música…'); });
+  audio.addEventListener('canplay', () => { if (!requestedPlay) setBuffering(false); });
   audio.addEventListener('volumechange', renderVolume);
   ['timeupdate', 'loadedmetadata', 'durationchange', 'emptied'].forEach(event => audio.addEventListener(event, renderTime));
   audio.addEventListener('ended', () => selectTrack(index + 1, true));
   audio.addEventListener('error', () => {
     requestedPlay = false;
     progress.disabled = true;
+    setBuffering(false);
     renderPlayback();
-    setStatus('Esta música não está disponível agora. Confira o arquivo ou escolha outra faixa; a nossa carta continua aqui.');
+    setPersistentStatus('Esta música não está disponível agora. Confira o arquivo ou escolha outra faixa; a nossa carta continua aqui.');
   });
   return { pause };
 }
