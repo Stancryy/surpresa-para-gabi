@@ -60,7 +60,7 @@ export function initPlayer(tracks) {
     setStatus('');
     renderPlayback();
     try {
-      if (audio.error) audio.load(); // Permite tentar de novo se o arquivo voltar a ficar disponível.
+      if (audio.error || audio.readyState === 0) audio.load();
       await audio.play();
       if (attempt !== generation) return;
       requestedPlay = false;
@@ -68,6 +68,7 @@ export function initPlayer(tracks) {
     } catch (error) {
       if (attempt !== generation || error.name === 'AbortError') return;
       requestedPlay = false;
+      generation++;
       renderPlayback();
       setStatus(error.name === 'NotAllowedError'
         ? 'O navegador pediu uma confirmação. Toque em reproduzir para ouvir.'
@@ -85,6 +86,7 @@ export function initPlayer(tracks) {
     $('track-title').textContent = track.title;
     $('track-artist').textContent = track.artist;
     setStatus('');
+    audio.load();
     renderTime();
     renderPlayback();
     if (shouldPlay) play();
